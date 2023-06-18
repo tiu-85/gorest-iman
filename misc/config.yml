@@ -1,0 +1,26 @@
+env: ${ENV}
+app: ${APP_NAME}
+
+gateway_port: ${GATEWAY_PORT}
+post_crud_service_port: ${POST_CRUD_SERVICE_PORT}
+post_fetch_service_port: ${POST_FETCH_SERVICE_PORT}
+
+post_crud_service_url: ${POST_CRUD_SERVICE_URL}
+post_fetch_service_url: ${POST_FETCH_SERVICE_URL}
+
+dbs:
+  post:
+    host: ${POSTGRES_HOST}
+    port: ${POSTGRES_PORT}
+    database: ${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    schema: post
+    max_open_conns: ${POSTGRES_POOL}
+    min_idle_conns: 0
+    max_retries: 5
+    max_conn_lifetime: 35s
+    read_timeout: 35s
+    write_timeout: 35s
+
+external_api_url: ${EXTERNAL_API_URL}

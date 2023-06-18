@@ -1,0 +1,16 @@
+FROM alpine:latest
+
+ARG BUILD_APP_NAME
+
+ENV GOPATH=/go
+ENV GOBIN=${GOPATH}/bin
+ENV BUILD_APP_NAME=${BUILD_APP_NAME}
+ENV MISC_DIR=${GOPATH}/misc
+ENV APP_NAME=${BUILD_APP_NAME}
+
+RUN apk add tzdata
+
+COPY ./misc ${GOPATH}/misc
+COPY ./build/${BUILD_APP_NAME} ${GOBIN}/${BUILD_APP_NAME}
+
+CMD ${GOBIN}/${BUILD_APP_NAME} -c ${GOPATH}/misc/config.yml

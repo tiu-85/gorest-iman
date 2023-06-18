@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package pbv1;
+
+option go_package = "./pbv1";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+message Paginator {
+  uint32 offset = 1;
+  uint32 limit = 2;
+}
+
+message Task {
+  uint32 id = 1;
+  uint32 total = 3;
+  uint32 success = 4;
+  uint32 fail = 5;
+  uint32 page_offset = 6;
+  uint32 page_limit = 7;
+}
+
+message CreateTaskRequest {
+  Paginator paginator = 1;
+}
+
+message CreateTaskResponse {
+  Task task = 1;
+}
+
+message GetTaskRequest {
+  uint32 id = 1;
+}
+
+message GetTaskResponse {
+  Task task = 1;
+}
+
+service PostFetchService {
+  rpc CreateTask(CreateTaskRequest) returns (CreateTaskResponse) {
+  }
+  rpc GetTask(GetTaskRequest) returns (GetTaskResponse) {
+  }
+}
+
+message Post {
+  uint32 id = 1;
+  uint32 post_id = 3;
+  uint32 user_id = 4;
+  string title = 5;
+  string body = 6;
+}
+
+message GetPostListFilter {
+  uint32 post_id = 1;
+  uint32 user_id = 2;
+  string title = 3;
+}
+
+message GetPostListRequest {
+  GetPostListFilter filter = 1;
+  Paginator paginator = 2;
+}
+
+message GetPostListResponse {
+  repeated Post items = 1;
+  uint32 count = 2;
+}
+
+message GetPostRequest {
+  uint32 id = 1;
+}
+
+message GetPostResponse {
+  Post post = 1;
+}
+
+message EditPostRequest {
+  uint32 id = 1;
+  EditPostRequestParams params = 2;
+}
+
+message EditPostRequestParams {
+  string title = 5;
+  string body = 6;
+}
+
+message EditPostResponse {
+  Post post = 1;
+}
+
+message DeletePostRequest {
+  uint32 id = 1;
+}
+
+message DeletePostResponse {}
+
+service PostCrudService {
+  rpc GetPostList(GetPostListRequest) returns (GetPostListResponse) {
+  }
+  rpc GetPost(GetPostRequest) returns (GetPostResponse) {
+  }
+  rpc EditPost(EditPostRequest) returns (EditPostResponse) {
+  }
+  rpc DeletePost(DeletePostRequest) returns (DeletePostResponse) {
+  }
+}

@@ -1,0 +1,61 @@
+version: "3.8"
+
+networks:
+  develop_net:
+
+services:
+  api_gateway:
+    build:
+      context: ..
+      dockerfile: ./deployments/Dockerfile
+      args:
+        BUILD_APP_NAME: api-gateway
+    env_file:
+      - ../.env
+    environment:
+      - POSTGRES_HOST=postgres
+      - POST_CRUD_SERVICE_URL=172.16.0.102:8082
+      - POST_FETCH_SERVICE_URL=172.16.0.103:8083
+    ports:
+      - "8081:8081"
+    external_links:
+      - postgres
+    networks:
+      develop_net:
+        ipv4_address: 172.16.0.101
+
+  post_crud:
+    build:
+      context: ..
+      dockerfile: ./deployments/Dockerfile
+      args:
+        BUILD_APP_NAME: post-crud
+    env_file:
+      - ../.env
+    environment:
+      - POSTGRES_HOST=postgres
+    ports:
+      - "8082:8082"
+    external_links:
+      - postgres
+    networks:
+      develop_net:
+        ipv4_address: 172.16.0.102
+
+  post_fetch:
+    build:
+      context: ..
+      dockerfile: ./deployments/Dockerfile
+      args:
+        BUILD_APP_NAME: post-fetch
+    env_file:
+      - ../.env
+    environment:
+      - POSTGRES_HOST=postgres
+    ports:
+      - "8083:8083"
+    external_links:
+      - postgres
+    networks:
+      develop_net:
+        ipv4_address: 172.16.0.103
